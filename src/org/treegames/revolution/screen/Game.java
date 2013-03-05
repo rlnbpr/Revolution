@@ -40,6 +40,8 @@ public class Game extends Screen {
 	// ------------- LIGHTING --------------//
 
 	public Game() {
+		cameraX=0;
+		cameraY=0;
 		grid.loadLevel(new Level(){
 			public void buildLevel(Grid grid) {
 				this.buildFromStream(grid,getClass().getResourceAsStream("/maps/test.tmap"));

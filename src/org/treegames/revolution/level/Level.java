@@ -16,7 +16,7 @@ public abstract class Level {
 		grid.background=new int[l.grid.length][l.grid[0].length];
 		for (int x=0;x<grid.grid.length;x++){
 			for (int y=0;y<grid.grid[0].length;y++){
-				grid.grid[x][y]=l.grid[x][y];
+				grid.grid[x][y]=l.grid[x][grid.grid[0].length-1-y];
 			}
 		}
 		grid.properties=l.properties;
