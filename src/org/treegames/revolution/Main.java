@@ -1,5 +1,6 @@
 package org.treegames.revolution;
 
+import java.awt.Toolkit;
 import java.io.File;
 
 import javax.swing.JOptionPane;
@@ -129,8 +130,13 @@ public class Main {
 		}
 	}
 
+	static{
+		Toolkit.getDefaultToolkit();
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Starting game...");
+		System.out.println("Using Java version "+System.getProperty("java.version").substring(0,3));
 		loadLWJGL();
 		new Main();
 	}
