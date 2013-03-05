@@ -2,6 +2,8 @@ package org.treegames.revolution;
 
 import java.io.File;
 
+import javax.swing.JOptionPane;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
@@ -23,9 +25,7 @@ public class Main {
 	public int fps;
 
 	public Main() {
-		System.out.println("Loading LWJGL...");
-		loadLWJGL();
-		System.out.println("Loaded LWJGL Version "+Sys.getVersion());
+		System.out.println("Using LWJGL Version "+Sys.getVersion());
 
 		gameThread=new Thread("main-game-thread"){
 			public void run() {
@@ -118,21 +118,20 @@ public class Main {
 		screen.render(this);
 	}
 
-	public void loadLWJGL() {
-		long then=System.currentTimeMillis();
-		for (File file:new File("lib/natives").listFiles()){
-			if(file.getName().startsWith(".")){
-				continue;
-			}
-			System.load(file.getAbsolutePath());
+	public static void loadLWJGL() {
+		System.out.println("Loading LWJGL...");
+		try{
+			System.setProperty("org.lwjgl.librarypath",new File("lib/natives").getAbsolutePath());
+			Sys.getVersion();
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null,"Couldn't assign natives to LWJGL!!\nDoes LWJGL support your platform?\nIf so, try reinstalling the game.","TreEngine Error",JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
 		}
-		long now=System.currentTimeMillis();
-		long timeTaken=now-then;
-		System.out.println("Took "+timeTaken+"ms");
 	}
 
 	public static void main(String[] args) {
 		System.out.println("Starting game...");
+		loadLWJGL();
 		new Main();
 	}
 }

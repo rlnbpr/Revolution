@@ -1,6 +1,31 @@
 package org.treegames.revolution.gfx;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_BACK;
+import static org.lwjgl.opengl.GL11.GL_COMPILE;
+import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
+import static org.lwjgl.opengl.GL11.GL_FILL;
+import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
+import static org.lwjgl.opengl.GL11.GL_LIGHT0;
+import static org.lwjgl.opengl.GL11.GL_LIGHTING;
+import static org.lwjgl.opengl.GL11.GL_LINE;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glCallList;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glCullFace;
+import static org.lwjgl.opengl.GL11.glDeleteLists;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glEndList;
+import static org.lwjgl.opengl.GL11.glGenLists;
+import static org.lwjgl.opengl.GL11.glNewList;
+import static org.lwjgl.opengl.GL11.glPolygonMode;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.glVertex3f;
 
 import org.lwjgl.input.Keyboard;
 
@@ -102,11 +127,13 @@ public class Grid {
 			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 		}
 		glPushMatrix();
+		// ShaderUtils.useProgram(Main.invertedProgram);
 		if(!wireframe)
 			Tiles.textureMap.get(tile).use();
 		glTranslatef(x*2-15.5f,y*2-10,inBackground?-34:-32);
 		glCallList(cube);
 		Texture.unbindAll();
+		// ShaderUtils.useFixedFunctions();
 		glPopMatrix();
 		glDisable(GL_CULL_FACE);
 	}
