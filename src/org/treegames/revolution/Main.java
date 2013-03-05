@@ -14,6 +14,7 @@ import org.lwjgl.util.glu.GLU;
 import org.treegames.revolution.gfx.Grid;
 import org.treegames.revolution.gfx.ShaderUtils;
 import org.treegames.revolution.gfx.Tiles;
+import org.treegames.revolution.level.TreEngineFormat;
 import org.treegames.revolution.screen.Game;
 import org.treegames.revolution.screen.Screen;
 
@@ -24,6 +25,8 @@ public class Main {
 
 	public long lastFrame,lastFPS;
 	public int fps;
+
+	public static TreEngineFormat mapFormat=new TreEngineFormat();
 
 	public Main() {
 		System.out.println("Using LWJGL Version "+Sys.getVersion());

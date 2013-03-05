@@ -1,5 +1,22 @@
 package org.treegames.revolution.screen;
 
+import static org.lwjgl.opengl.GL11.GL_AMBIENT_AND_DIFFUSE;
+import static org.lwjgl.opengl.GL11.GL_COLOR_MATERIAL;
+import static org.lwjgl.opengl.GL11.GL_DIFFUSE;
+import static org.lwjgl.opengl.GL11.GL_FRONT;
+import static org.lwjgl.opengl.GL11.GL_LIGHT0;
+import static org.lwjgl.opengl.GL11.GL_LIGHTING;
+import static org.lwjgl.opengl.GL11.GL_LIGHT_MODEL_AMBIENT;
+import static org.lwjgl.opengl.GL11.GL_POSITION;
+import static org.lwjgl.opengl.GL11.GL_SHININESS;
+import static org.lwjgl.opengl.GL11.GL_SPECULAR;
+import static org.lwjgl.opengl.GL11.glColorMaterial;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glLight;
+import static org.lwjgl.opengl.GL11.glLightModel;
+import static org.lwjgl.opengl.GL11.glMaterial;
+import static org.lwjgl.opengl.GL11.glMaterialf;
+
 import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
@@ -7,8 +24,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.treegames.revolution.Main;
 import org.treegames.revolution.gfx.Grid;
-
-import static org.lwjgl.opengl.GL11.*;
+import org.treegames.revolution.level.Level;
 
 public class Game extends Screen {
 	private Grid grid=new Grid(1);
@@ -22,6 +38,14 @@ public class Game extends Screen {
 	private FloatBuffer lModelAmbient;
 
 	// ------------- LIGHTING --------------//
+
+	public Game() {
+		grid.loadLevel(new Level(){
+			public void buildLevel(Grid grid) {
+				this.buildFromStream(grid,getClass().getResourceAsStream("/maps/test.tmap"));
+			}
+		});
+	}
 
 	public void initGL() {
 		matSpecular=BufferUtils.createFloatBuffer(4);

@@ -27,13 +27,17 @@ import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.lwjgl.input.Keyboard;
+import org.treegames.revolution.level.Level;
 
 public class Grid {
-	public static final int GRID_WIDTH=32;
-	public static final int GRID_HEIGHT=24;
-	private int grid[][]=new int[GRID_WIDTH][GRID_HEIGHT];
-	private int background[][]=new int[GRID_WIDTH][GRID_HEIGHT];
+	public int grid[][]=new int[32][24];
+	public int background[][]=new int[32][24];
+
+	public Map<String,String> properties=new HashMap<String,String>();
 
 	private static int cube;
 
@@ -139,42 +143,46 @@ public class Grid {
 	}
 
 	public void generate() {
-		for (int i=0;i<GRID_WIDTH;i++){
-			for (int j=0;j<GRID_HEIGHT;j++){
+		for (int i=0;i<grid.length;i++){
+			for (int j=0;j<grid[0].length;j++){
 				grid[i][j]=0;
 				background[i][j]=0;
 			}
 		}
 
-		for (int i=0;i<GRID_WIDTH;i++){
+		for (int i=0;i<grid.length;i++){
 			for (int j=0;j<9;j++){
 				background[i][j]=2;
 			}
 		}
 
-		for (int i=0;i<GRID_WIDTH;i++){
+		for (int i=0;i<grid.length;i++){
 			background[i][9]=1;
 			grid[i][9]=1;
 		}
 
 		for (int i=0;i<2;i++){
-			for (int j=0;j<GRID_WIDTH;j++){
+			for (int j=0;j<grid.length;j++){
 				grid[j][i]=3;
 			}
 		}
-		for (int i=0;i<GRID_WIDTH;i++){
+		for (int i=0;i<grid.length;i++){
 			grid[i][8]=1;
 		}
 		grid[0][7]=1;
 		grid[0][6]=1;
 		grid[0][5]=1;
 		grid[0][4]=1;
-		grid[GRID_WIDTH-1][7]=1;
-		grid[GRID_WIDTH-1][6]=1;
-		grid[GRID_WIDTH-1][5]=1;
-		grid[GRID_WIDTH-1][4]=1;
-		grid[GRID_WIDTH-1][3]=1;
-		grid[GRID_WIDTH-1][2]=1;
+		grid[grid.length-1][7]=1;
+		grid[grid.length-1][6]=1;
+		grid[grid.length-1][5]=1;
+		grid[grid.length-1][4]=1;
+		grid[grid.length-1][3]=1;
+		grid[grid.length-1][2]=1;
+	}
+
+	public void loadLevel(Level level) {
+		level.buildLevel(this);
 	}
 
 	public void draw() {
