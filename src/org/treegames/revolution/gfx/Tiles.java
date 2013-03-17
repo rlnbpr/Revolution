@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class Tiles {
 	public static Map<Integer,Texture> textureMap=new HashMap<Integer,Texture>();
-	private static Map<Integer,Boolean> specularMap=new HashMap<Integer,Boolean>();
 
 	public static void initTiles() {
 		BufferedImage tiles=null;
@@ -22,10 +21,6 @@ public class Tiles {
 				textureMap.put(16*y+x+1,Texture.makeFromSheet(tiles,x,y,64));
 			}
 		}
-
-		specularMap.put(2,true);
-		specularMap.put(3,true);
-		specularMap.put(4,true);
 	}
 
 	public static void unload() {
