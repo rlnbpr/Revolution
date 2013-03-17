@@ -1,21 +1,6 @@
 package org.treegames.revolution.screen;
 
-import static org.lwjgl.opengl.GL11.GL_AMBIENT_AND_DIFFUSE;
-import static org.lwjgl.opengl.GL11.GL_COLOR_MATERIAL;
-import static org.lwjgl.opengl.GL11.GL_DIFFUSE;
-import static org.lwjgl.opengl.GL11.GL_FRONT;
-import static org.lwjgl.opengl.GL11.GL_LIGHT0;
-import static org.lwjgl.opengl.GL11.GL_LIGHTING;
-import static org.lwjgl.opengl.GL11.GL_LIGHT_MODEL_AMBIENT;
-import static org.lwjgl.opengl.GL11.GL_POSITION;
-import static org.lwjgl.opengl.GL11.GL_SHININESS;
-import static org.lwjgl.opengl.GL11.GL_SPECULAR;
-import static org.lwjgl.opengl.GL11.glColorMaterial;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glLight;
-import static org.lwjgl.opengl.GL11.glLightModel;
-import static org.lwjgl.opengl.GL11.glMaterial;
-import static org.lwjgl.opengl.GL11.glMaterialf;
+import static org.lwjgl.opengl.GL11.*;
 
 import java.nio.FloatBuffer;
 
@@ -85,8 +70,8 @@ public class Game extends Screen {
 	public void update(int delta) {
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 			cameraX-=1;
-			if(cameraX<=-10){
-				cameraX=-9;
+			if(cameraX<=-20){
+				cameraX=-19;
 			}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
@@ -97,18 +82,18 @@ public class Game extends Screen {
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
 			cameraY+=1;
-			if(cameraY>=10){
-				cameraY=9;
+			if(cameraY>=5){
+				cameraY=4;
 			}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
 			cameraY-=1;
-			if(cameraY<=-10){
-				cameraY=-9;
+			if(cameraY<=-20){
+				cameraY=-19;
 			}
 		}
 
-		if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)&&!Keyboard.isKeyDown(Keyboard.KEY_LEFT)&&!Keyboard.isKeyDown(Keyboard.KEY_DOWN)&&!Keyboard.isKeyDown(Keyboard.KEY_UP)){
+		/*if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)&&!Keyboard.isKeyDown(Keyboard.KEY_LEFT)&&!Keyboard.isKeyDown(Keyboard.KEY_DOWN)&&!Keyboard.isKeyDown(Keyboard.KEY_UP)){
 			// move camera back to default position when the camera isn't being controlled
 			if(cameraX>0){
 				cameraX-=0.5f;
@@ -121,6 +106,6 @@ public class Game extends Screen {
 			}else if(cameraY<0){
 				cameraY+=0.5f;
 			}
-		}
+		}*/
 	}
 }

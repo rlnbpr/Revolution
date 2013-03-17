@@ -49,6 +49,8 @@ public class Main {
 				GL11.glShadeModel(GL11.GL_FLAT); // we don't need smooth shading since we're not using any models.
 				GL11.glClearColor(0.3921568627451f,0.5843137254902f,0.92941176470588f,0.0f);
 				GL11.glClearDepth(1.0f);
+				GL11.glEnable(GL11.GL_BLEND);        
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 				GL11.glEnable(GL11.GL_DEPTH_TEST);
 				GL11.glDepthFunc(GL11.GL_LEQUAL);
 				GL11.glDisable(GL11.GL_CULL_FACE);
