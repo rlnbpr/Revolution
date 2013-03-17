@@ -28,7 +28,7 @@ public class Game extends Screen {
 	public Game() {
 		grid.loadLevel(new Level(){
 			public void buildLevel(Grid grid) {
-				this.buildFromStream(grid,getClass().getResourceAsStream("/maps/Example.tmap"));
+				this.buildFromStream(grid,getClass().getResourceAsStream("/maps/nudity.tmap"));
 			}
 		});
 	}
