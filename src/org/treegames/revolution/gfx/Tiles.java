@@ -12,6 +12,12 @@ public class Tiles {
 		textureMap.put(2,Texture.makeFromFile("/tiles/rwall_1.png"));
 		textureMap.put(3,Texture.makeFromFile("/tiles/marble.png"));
 		textureMap.put(4,Texture.makeFromFile("/tiles/marblelight.png"));
+		textureMap.put(5,Texture.makeFromFile("/tiles/cloth_white.png"));
+		textureMap.put(6,Texture.makeFromFile("/tiles/cloth_red.png"));
+		textureMap.put(7,Texture.makeFromFile("/tiles/cloth_blue.png"));
+		textureMap.put(8,Texture.makeFromFile("/tiles/cloth_yellow.png"));
+		textureMap.put(9,Texture.makeFromFile("/tiles/cloth_lime.png"));
+
 
 		specularMap.put(2,true);
 		specularMap.put(3,true);
