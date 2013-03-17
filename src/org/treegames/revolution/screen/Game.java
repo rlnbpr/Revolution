@@ -38,7 +38,7 @@ public class Game extends Screen {
 		matSpecular.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
 
 		lightPosition=BufferUtils.createFloatBuffer(4);
-		lightPosition.put(1.0f).put(1.0f).put(1.0f).put(-32.0f).flip();
+		lightPosition.put(1.0f).put(1.0f).put(1.0f).put(-30.0f).flip();
 
 		whiteLight=BufferUtils.createFloatBuffer(4);
 		whiteLight.put(.3f).put(.3f).put(.3f).put(1.0f).flip();
@@ -47,7 +47,7 @@ public class Game extends Screen {
 		lModelAmbient.put(0.5f).put(0.5f).put(0.5f).put(1.0f).flip();
 
 		glMaterial(GL_FRONT,GL_SPECULAR,matSpecular);
-		glMaterialf(GL_FRONT,GL_SHININESS,10.0f);
+		glMaterialf(GL_FRONT,GL_SHININESS,128.0f);
 
 		glLight(GL_LIGHT0,GL_POSITION,lightPosition);
 		glLight(GL_LIGHT0,GL_SPECULAR,whiteLight);
@@ -71,7 +71,7 @@ public class Game extends Screen {
 		float ctrlMod=0.2f;
 		float shiftMod=2f;
 		float modifier=norm;
-		
+
 		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
 			modifier=ctrlMod;
 		}else if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
@@ -79,39 +79,39 @@ public class Game extends Screen {
 		}else if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)&&!Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
 			modifier=norm;
 		}
-	  if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-	   cameraX-=modifier;
-	   // if(cameraX<=-20){
-	   // cameraX=-19;
-	   // }
-	  }
-	  if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-	   cameraX+=modifier;
-	   // if(cameraX>=10){
-	   // cameraX=9;
-	   // }
-	  }
-	  if(Keyboard.isKeyDown(Keyboard.KEY_E)){
-	   cameraY+=modifier;
-	   // if(cameraY>=5){
-	   // cameraY=4;
-	   // }
-	  }
-	  if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
-	   cameraY-=modifier;
-	   // if(cameraY<=-20){
-	   // cameraY=-19;
-	   // }
-	  }
-	  if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-	   cameraZ+=modifier;
-	  }
-	  if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-	   cameraZ-=modifier;
-	  }
+		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+			cameraX-=modifier;
+			// if(cameraX<=-20){
+			// cameraX=-19;
+			// }
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
+			cameraX+=modifier;
+			// if(cameraX>=10){
+			// cameraX=9;
+			// }
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_E)){
+			cameraY+=modifier;
+			// if(cameraY>=5){
+			// cameraY=4;
+			// }
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+			cameraY-=modifier;
+			// if(cameraY<=-20){
+			// cameraY=-19;
+			// }
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
+			cameraZ+=modifier;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+			cameraZ-=modifier;
+		}
 
-	  /*
-	   * if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)&&!Keyboard.isKeyDown(Keyboard.KEY_LEFT)&&!Keyboard.isKeyDown(Keyboard.KEY_DOWN)&&!Keyboard.isKeyDown(Keyboard.KEY_UP)){ // move camera back to default position when the camera isn't being controlled if(cameraX>0){ cameraX-=0.5f; }else if(cameraX<0){ cameraX+=0.5f; } if(cameraY>0){ cameraY-=0.5f; }else if(cameraY<0){ cameraY+=0.5f; } }
-	   */
-	 }
+		/*
+		 * if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)&&!Keyboard.isKeyDown(Keyboard.KEY_LEFT)&&!Keyboard.isKeyDown(Keyboard.KEY_DOWN)&&!Keyboard.isKeyDown(Keyboard.KEY_UP)){ // move camera back to default position when the camera isn't being controlled if(cameraX>0){ cameraX-=0.5f; }else if(cameraX<0){ cameraX+=0.5f; } if(cameraY>0){ cameraY-=0.5f; }else if(cameraY<0){ cameraY+=0.5f; } }
+		 */
+	}
 }
