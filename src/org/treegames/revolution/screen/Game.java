@@ -15,6 +15,7 @@ public class Game extends Screen {
 	private Grid grid=new Grid(1);
 	private float cameraX=0;
 	private float cameraY=0;
+	private float cameraZ=0;
 
 	// ------------- LIGHTING --------------//
 	private FloatBuffer matSpecular;
@@ -25,8 +26,6 @@ public class Game extends Screen {
 	// ------------- LIGHTING --------------//
 
 	public Game() {
-		cameraX=0;
-		cameraY=0;
 		grid.loadLevel(new Level(){
 			public void buildLevel(Grid grid) {
 				this.buildFromStream(grid,getClass().getResourceAsStream("/maps/Example.tmap"));
@@ -63,49 +62,56 @@ public class Game extends Screen {
 	}
 
 	public void render(Main main) {
-		GL11.glTranslatef(cameraX,cameraY,0);
+		GL11.glTranslatef(cameraX,cameraY,cameraZ);
 		grid.draw();
 	}
 
 	public void update(int delta) {
-		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-			cameraX-=1;
-			if(cameraX<=-20){
-				cameraX=-19;
-			}
+		float norm=1;
+		float ctrlMod=0.2f;
+		float shiftMod=2f;
+		float modifier=norm;
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
+			modifier=ctrlMod;
+		}else if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+			modifier=shiftMod;
+		}else if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)&&!Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
+			modifier=norm;
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
-			cameraX+=1;
-			if(cameraX>=10){
-				cameraX=9;
-			}
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
-			cameraY+=1;
-			if(cameraY>=5){
-				cameraY=4;
-			}
-		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
-			cameraY-=1;
-			if(cameraY<=-20){
-				cameraY=-19;
-			}
-		}
+	  if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+	   cameraX-=modifier;
+	   // if(cameraX<=-20){
+	   // cameraX=-19;
+	   // }
+	  }
+	  if(Keyboard.isKeyDown(Keyboard.KEY_A)){
+	   cameraX+=modifier;
+	   // if(cameraX>=10){
+	   // cameraX=9;
+	   // }
+	  }
+	  if(Keyboard.isKeyDown(Keyboard.KEY_E)){
+	   cameraY+=modifier;
+	   // if(cameraY>=5){
+	   // cameraY=4;
+	   // }
+	  }
+	  if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+	   cameraY-=modifier;
+	   // if(cameraY<=-20){
+	   // cameraY=-19;
+	   // }
+	  }
+	  if(Keyboard.isKeyDown(Keyboard.KEY_W)){
+	   cameraZ+=modifier;
+	  }
+	  if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+	   cameraZ-=modifier;
+	  }
 
-		/*if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)&&!Keyboard.isKeyDown(Keyboard.KEY_LEFT)&&!Keyboard.isKeyDown(Keyboard.KEY_DOWN)&&!Keyboard.isKeyDown(Keyboard.KEY_UP)){
-			// move camera back to default position when the camera isn't being controlled
-			if(cameraX>0){
-				cameraX-=0.5f;
-			}else if(cameraX<0){
-				cameraX+=0.5f;
-			}
-
-			if(cameraY>0){
-				cameraY-=0.5f;
-			}else if(cameraY<0){
-				cameraY+=0.5f;
-			}
-		}*/
-	}
+	  /*
+	   * if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT)&&!Keyboard.isKeyDown(Keyboard.KEY_LEFT)&&!Keyboard.isKeyDown(Keyboard.KEY_DOWN)&&!Keyboard.isKeyDown(Keyboard.KEY_UP)){ // move camera back to default position when the camera isn't being controlled if(cameraX>0){ cameraX-=0.5f; }else if(cameraX<0){ cameraX+=0.5f; } if(cameraY>0){ cameraY-=0.5f; }else if(cameraY<0){ cameraY+=0.5f; } }
+	   */
+	 }
 }

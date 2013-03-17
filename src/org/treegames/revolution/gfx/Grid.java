@@ -25,13 +25,13 @@ public class Grid {
 		glNewList(cube,GL_COMPILE);
 		glBegin(GL_QUADS);
 		// Bottom Face
-		glTexCoord2f(1.0f,1.0f);
-		glVertex3f(-1.0f,-1.0f,-1.0f);
 		glTexCoord2f(0.0f,1.0f);
+		glVertex3f(-1.0f,-1.0f,-1.0f);
+		glTexCoord2f(1.0f,1.0f);
 		glVertex3f(1.0f,-1.0f,-1.0f);
-		glTexCoord2f(0.0f,0.0f);
-		glVertex3f(1.0f,-1.0f,1.0f);
 		glTexCoord2f(1.0f,0.0f);
+		glVertex3f(1.0f,-1.0f,1.0f);
+		glTexCoord2f(0.0f,0.0f);
 		glVertex3f(-1.0f,-1.0f,1.0f);
 		// Front Face
 		glTexCoord2f(0.0f,0.0f);
