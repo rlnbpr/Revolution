@@ -97,6 +97,7 @@ public class Grid {
 		glEnable(GL_LIGHT0);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
+		glRotatef(0,0,0,1);
 		if(wireframe){
 			Texture.unbindAll();
 			glColor3f(0.0f,1.0f,1.0f);
