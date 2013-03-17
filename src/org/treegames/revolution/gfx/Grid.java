@@ -106,7 +106,7 @@ public class Grid {
 			glColor3f(1.0f,1.0f,1.0f);
 			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 		}
-		
+
 		glPushMatrix();
 		// ShaderUtils.useProgram(Main.invertedProgram);
 		if(!wireframe)
@@ -121,42 +121,7 @@ public class Grid {
 	}
 
 	public void generate() {
-		for (int i=0;i<grid.length;i++){
-			for (int j=0;j<grid[0].length;j++){
-				grid[i][j]=0;
-				background[i][j]=0;
-			}
-		}
 
-		for (int i=0;i<grid.length;i++){
-			for (int j=0;j<9;j++){
-				background[i][j]=2;
-			}
-		}
-
-		for (int i=0;i<grid.length;i++){
-			background[i][9]=1;
-			grid[i][9]=1;
-		}
-
-		for (int i=0;i<2;i++){
-			for (int j=0;j<grid.length;j++){
-				grid[j][i]=3;
-			}
-		}
-		for (int i=0;i<grid.length;i++){
-			grid[i][8]=1;
-		}
-		grid[0][7]=1;
-		grid[0][6]=1;
-		grid[0][5]=1;
-		grid[0][4]=1;
-		grid[grid.length-1][7]=1;
-		grid[grid.length-1][6]=1;
-		grid[grid.length-1][5]=1;
-		grid[grid.length-1][4]=1;
-		grid[grid.length-1][3]=1;
-		grid[grid.length-1][2]=1;
 	}
 
 	public void loadLevel(Level level) {

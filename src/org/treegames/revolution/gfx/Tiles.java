@@ -1,5 +1,7 @@
 package org.treegames.revolution.gfx;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,16 +10,18 @@ public class Tiles {
 	private static Map<Integer,Boolean> specularMap=new HashMap<Integer,Boolean>();
 
 	public static void initTiles() {
-		textureMap.put(1,Texture.makeFromFile("/tiles/planks.png"));
-		textureMap.put(2,Texture.makeFromFile("/tiles/rwall_1.png"));
-		textureMap.put(3,Texture.makeFromFile("/tiles/marble.png"));
-		textureMap.put(4,Texture.makeFromFile("/tiles/marblelight.png"));
-		textureMap.put(5,Texture.makeFromFile("/tiles/cloth_white.png"));
-		textureMap.put(6,Texture.makeFromFile("/tiles/cloth_red.png"));
-		textureMap.put(7,Texture.makeFromFile("/tiles/cloth_blue.png"));
-		textureMap.put(8,Texture.makeFromFile("/tiles/cloth_yellow.png"));
-		textureMap.put(9,Texture.makeFromFile("/tiles/cloth_lime.png"));
+		BufferedImage tiles=null;
+		try{
+			tiles=Texture.loadImg("/tiles.png");
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 
+		for (int y=0;y<16;y++){
+			for (int x=0;x<16;x++){
+				textureMap.put(16*y+x+1,Texture.makeFromSheet(tiles,x,y,64));
+			}
+		}
 
 		specularMap.put(2,true);
 		specularMap.put(3,true);

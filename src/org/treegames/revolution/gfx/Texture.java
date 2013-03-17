@@ -32,15 +32,7 @@ public class Texture {
 		this.id=id;
 	}
 
-	public static Texture makeFromFile(String path) {
-		BufferedImage img=null;
-		try{
-			img=loadImg(path);
-		}catch(IOException e){
-			System.err.println("Can't load texture "+path+"!!");
-			System.err.println(e.getMessage());
-		}
-
+	public static Texture makeFromImage(BufferedImage img) {
 		int[] pixels=new int[img.getWidth()*img.getHeight()];
 		img.getRGB(0,0,img.getWidth(),img.getHeight(),pixels,0,img.getWidth());
 
@@ -74,7 +66,27 @@ public class Texture {
 		return new Texture(textureID);
 	}
 
-	private static BufferedImage loadImg(String path) throws IOException {
+	public static Texture makeFromFile(String path) {
+		BufferedImage img=null;
+		try{
+			img=loadImg(path);
+		}catch(IOException e){
+			System.err.println("Can't load texture "+path+"!!");
+			System.err.println(e.getMessage());
+		}
+
+		return makeFromImage(img);
+	}
+
+	public static Texture makeFromSheet(BufferedImage sheet,int x,int y,int tileWidth,int tileHeight) {
+		return makeFromImage(sheet.getSubimage(x*tileWidth,y*tileHeight,tileWidth,tileHeight));
+	}
+
+	public static Texture makeFromSheet(BufferedImage sheet,int x,int y,int tileSize) {
+		return makeFromSheet(sheet,x,y,tileSize,tileSize);
+	}
+
+	public static BufferedImage loadImg(String path) throws IOException {
 		return ImageIO.read(Texture.class.getResource(path));
 	}
 
