@@ -11,9 +11,11 @@ public class Tiles {
 		textureMap.put(1,Texture.makeFromFile("/tiles/planks.png"));
 		textureMap.put(2,Texture.makeFromFile("/tiles/rwall_1.png"));
 		textureMap.put(3,Texture.makeFromFile("/tiles/marble.png"));
+		textureMap.put(4,Texture.makeFromFile("/tiles/marblelight.png"));
 
 		specularMap.put(2,true);
 		specularMap.put(3,true);
+		specularMap.put(4,true);
 	}
 
 	public static void unload() {

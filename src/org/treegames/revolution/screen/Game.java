@@ -44,7 +44,7 @@ public class Game extends Screen {
 		cameraY=0;
 		grid.loadLevel(new Level(){
 			public void buildLevel(Grid grid) {
-				this.buildFromStream(grid,getClass().getResourceAsStream("/maps/test.tmap"));
+				this.buildFromStream(grid,getClass().getResourceAsStream("/maps/Example.tmap"));
 			}
 		});
 	}

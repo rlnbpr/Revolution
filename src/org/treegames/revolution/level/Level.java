@@ -12,11 +12,12 @@ public abstract class Level {
 	public abstract void buildLevel(Grid grid);
 
 	public void buildFromData(Grid grid,LevelData l) {
-		grid.grid=new int[l.grid.length][l.grid[0].length];
-		grid.background=new int[l.grid.length][l.grid[0].length];
+		grid.grid=new int[l.layers[1].grid.length][l.layers[1].grid[0].length];
+		grid.background=new int[l.layers[0].grid.length][l.layers[0].grid[0].length];
 		for (int x=0;x<grid.grid.length;x++){
 			for (int y=0;y<grid.grid[0].length;y++){
-				grid.grid[x][y]=l.grid[x][grid.grid[0].length-1-y];
+				grid.grid[x][y]=l.layers[1].grid[x][grid.grid[0].length-1-y];
+				grid.background[x][y]=l.layers[0].grid[x][grid.background[0].length-1-y];
 			}
 		}
 		grid.properties=l.properties;
