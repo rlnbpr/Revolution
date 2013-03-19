@@ -19,6 +19,7 @@ public class Grid {
 	public int heightAboveGround=0;
 
 	public boolean wireframe=false;
+	public boolean lighting=false;
 
 	public static void initGraphics() {
 		cube=glGenLists(1);
@@ -93,7 +94,8 @@ public class Grid {
 	public void drawTile(int x,int y,int tile,boolean inBackground) {
 		if(tile==0)
 			return;
-		glEnable(GL_LIGHTING);
+		if(lighting)
+			glEnable(GL_LIGHTING);
 		glEnable(GL_LIGHT0);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
@@ -118,6 +120,7 @@ public class Grid {
 		// ShaderUtils.useFixedFunctions();
 		glPopMatrix();
 		glDisable(GL_CULL_FACE);
+		glDisable(GL_LIGHTING);
 	}
 
 	public void generate() {
