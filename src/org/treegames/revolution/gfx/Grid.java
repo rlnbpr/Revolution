@@ -94,17 +94,19 @@ public class Grid {
 	public void drawTile(int x,int y,int tile,boolean inBackground) {
 		if(tile==0)
 			return;
-		if(lighting)
-			glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
 		glEnable(GL_CULL_FACE);
 		// glCullFace(GL_BACK);
 		glRotatef(0,0,0,1);
 		if(wireframe){
 			Texture.unbindAll();
+			glDisable(GL_LIGHTING);
 			glColor3f(0.0f,1.0f,1.0f);
 			glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 		}else{
+			if(lighting){
+				glEnable(GL_LIGHTING);
+				glEnable(GL_LIGHT0);
+			}
 			glColor3f(1.0f,1.0f,1.0f);
 			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 		}
