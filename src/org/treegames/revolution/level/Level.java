@@ -12,7 +12,7 @@ public abstract class Level {
 	public abstract void buildLevel(Grid grid);
 
 	public void buildFromData(Grid grid,LevelData l) {
-		String doLight=l.properties.get("lighting");
+		String doLight=l.properties.get("dark");
 		if(doLight!=null&&doLight.equals("true")){
 			grid.lighting=true;
 		}

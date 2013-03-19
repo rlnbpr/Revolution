@@ -28,7 +28,7 @@ public class Game extends Screen {
 	public Game() {
 		grid.loadLevel(new Level(){
 			public void buildLevel(Grid grid) {
-				this.buildFromStream(grid,getClass().getResourceAsStream("/maps/nudity.tmap"));
+				this.buildFromStream(grid,getClass().getResourceAsStream("/maps/start.tmap"));
 			}
 		});
 	}
@@ -41,10 +41,10 @@ public class Game extends Screen {
 		lightPosition.put(1.0f).put(1.0f).put(1.0f).put(-30.0f).flip();
 
 		whiteLight=BufferUtils.createFloatBuffer(4);
-		whiteLight.put(.3f).put(.3f).put(.3f).put(1.0f).flip();
+		whiteLight.put(.48f).put(.48f).put(.48f).put(1.0f).flip();
 
 		lModelAmbient=BufferUtils.createFloatBuffer(4);
-		lModelAmbient.put(0.5f).put(0.5f).put(0.5f).put(1.0f).flip();
+		lModelAmbient.put(0f).put(0f).put(0f).put(0f).flip();
 
 		glMaterial(GL_FRONT,GL_SPECULAR,matSpecular);
 		glMaterialf(GL_FRONT,GL_SHININESS,128.0f);

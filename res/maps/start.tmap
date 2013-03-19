@@ -4,6 +4,7 @@ mapWidth=32
 mapHeight=10
 spawnX=64
 spawnY=256
+dark=true
 
 // Map
 
