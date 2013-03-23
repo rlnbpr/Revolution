@@ -52,6 +52,7 @@ public class Game extends Screen {
 		JFileChooser chooser=new JFileChooser();
 		chooser.setFileFilter(new FileNameExtensionFilter("TreEngine Maps (*.tmap)","tmap"));
 		chooser.setAcceptAllFileFilterUsed(false);
+		chooser.setCurrentDirectory(new File(System.getProperty("user.home") + "/Desktop"));
 		chooser.showOpenDialog(null);
 
 		final File f=chooser.getSelectedFile();
