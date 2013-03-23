@@ -115,7 +115,7 @@ public class Grid {
 		// ShaderUtils.useProgram(Main.invertedProgram);
 		if(!wireframe)
 			Tiles.textureMap.get(tile).use();
-		glTranslatef(x*2-15.5f,y*2-10,inBackground?-34:-32);
+		glTranslatef(x*2,y*2,inBackground?-34:-32);
 		glRotatef(-90f,0.0f,0.0f,1.0f);
 		glCallList(cube);
 		Texture.unbindAll();
