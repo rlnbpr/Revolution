@@ -50,9 +50,9 @@ public class Game extends Screen {
 
 	public void promptMap() {
 		JFileChooser chooser=new JFileChooser();
-		chooser.setFileFilter(new FileNameExtensionFilter("TreEngine Maps (*.tmap)","tmap"));
 		chooser.setAcceptAllFileFilterUsed(false);
-		chooser.setCurrentDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+		chooser.setFileFilter(new FileNameExtensionFilter("TreEngine Maps (*.tmap)","tmap"));
+		chooser.setCurrentDirectory(new File(System.getProperty("user.home")+"/Desktop"));
 		chooser.showOpenDialog(null);
 
 		final File f=chooser.getSelectedFile();
@@ -62,7 +62,7 @@ public class Game extends Screen {
 			}
 		});
 	}
-	
+
 	public void initGL() {
 		matSpecular=BufferUtils.createFloatBuffer(4);
 		matSpecular.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
