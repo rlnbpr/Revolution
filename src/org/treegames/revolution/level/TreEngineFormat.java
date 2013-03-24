@@ -48,49 +48,6 @@ public class TreEngineFormat {
 	}
 
 	public LevelData read(InputStream in) {
-		/*LevelData l=new LevelData();
-		Map<String,String> properties=new HashMap<String,String>();
-		List<List<Integer>> layout=new ArrayList<List<Integer>>();
-		BufferedReader br=new BufferedReader(new InputStreamReader(in));
-		String line;
-		try{
-			while((line=br.readLine())!=null){
-				if(line.isEmpty()||line.startsWith("#")||line.startsWith("//")){
-					continue;
-				}
-				if(isNumber(line.charAt(0))){
-					// tile
-					List<Integer> row=new ArrayList<Integer>();
-					String[] values=line.trim().split(",");
-					for (String s:values){
-						if(!s.isEmpty()){
-							int id=Integer.parseInt(s);
-							row.add(id);
-						}
-					}
-					layout.add(row);
-				}else{
-					// property
-					String[] s=line.trim().split("=");
-					String key=s[0];
-					String value=s[1];
-					properties.put(key,value);
-				}
-			}
-			l.properties=properties;
-			int width=layout.get(0).size();
-			int height=layout.size();
-			l.grid=new int[width][height];
-			for (int x=0;x<width;x++){
-				for (int y=0;y<height;y++){
-					int id=layout.get(y).get(x);
-					l.grid[x][y]=id;
-				}
-			}
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-		return l;*/
 		long start=System.currentTimeMillis();
 		LevelData l=new LevelData();
 		Map<String,String> properties=new HashMap<String,String>();
@@ -98,7 +55,8 @@ public class TreEngineFormat {
 		String[] lines=null;
 		String lin=null;
 		int currentLine=-1;
-		int layerCount=0;
+		int layerCount=2;
+		int width,maxRead=width=0;
 		try{
 			lines=new String[1024];
 			InputStreamReader isr=new InputStreamReader(in);
@@ -113,7 +71,6 @@ public class TreEngineFormat {
 					// found a layer
 					int id=Integer.parseInt(lin.split(":")[1]);
 					System.out.println("Found Layer "+id);
-					layerCount++;
 					layerMap.put(currentLine,id);
 				}else if(lin.contains("=")){
 					// property
@@ -124,6 +81,8 @@ public class TreEngineFormat {
 					System.out.println("Added property "+key+" with value "+value);
 				}
 			}
+			width=Integer.parseInt(properties.get("mapWidth"));
+			maxRead=Integer.parseInt(properties.get("mapHeight"));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -135,7 +94,6 @@ public class TreEngineFormat {
 			lineNum-=1;
 			System.out.println("Handling Layer "+layerId+" on line "+lineNum);
 			currentLine=0;
-			int maxRead=Integer.parseInt(properties.get("mapHeight"));
 			int startLine=lineNum+1;
 			System.out.println("Start: "+startLine);
 			int endLine=startLine+maxRead-1;
@@ -147,17 +105,14 @@ public class TreEngineFormat {
 				if(line==null){
 					continue;
 				}
-				System.out.println("Reading line "+currentLine);
 				if(line.isEmpty()||!isNumber(line.charAt(0))||line.startsWith("#")||line.startsWith("//")||currentLine<startLine){
 					continue;
 				}
 				if(currentLine==endLine+3){
-					System.out.println("Stop!");
 					break;
 				}
 				if(currentLine>=startLine){
 					// we're in a valid row
-					System.out.println("Valid!");
 					ArrayList<Integer> row=new ArrayList<Integer>();
 					String[] values=line.split(",");
 					for (String s:values){
@@ -165,7 +120,6 @@ public class TreEngineFormat {
 					}
 					layout.add(row);
 				}
-				System.out.println(line);
 			}
 
 			l.properties=properties;
@@ -177,20 +131,27 @@ public class TreEngineFormat {
 
 			l.layers[layerId]=new Layer();
 			l.layers[layerId].position=layerId;
-			int width=Integer.parseInt(properties.get("mapWidth"));
 			l.layers[layerId].grid=new int[width][maxRead];
-			System.out.println(width);
-			System.out.println(maxRead);
-			long end=System.currentTimeMillis();
-			long total=end-start;
-			System.out.println("Took "+total+"ms");
 			for (int y=0;y<maxRead;y++){
 				for (int x=0;x<width;x++){
-					System.out.println("x: "+x+" y: "+y+" maxRead: "+maxRead+" width: "+width);
 					l.layers[layerId].grid[x][y]=layout.get(y).get(x);
 				}
 			}
 		}
+
+		for (int i=0;i<l.layers.length;i++){
+			Layer lay=l.layers[i];
+			if(lay==null){
+				lay=new Layer();
+				lay.initGrid(width,maxRead);
+				lay.position=i;
+				l.layers[i]=lay;
+			}
+		}
+
+		long end=System.currentTimeMillis();
+		long total=end-start;
+		System.out.println("Took "+total+"ms to load");
 		return l;
 	}
 
