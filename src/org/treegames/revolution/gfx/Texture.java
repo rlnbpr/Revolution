@@ -25,81 +25,80 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
 
 public class Texture {
-	private static final int BYTES_PER_PIXEL=4;
-	private int id=0;
+    private static final int BYTES_PER_PIXEL = 4;
+    private int id = 0;
 
-	public Texture(int id) {
-		this.id=id;
-	}
+    public Texture(int id) {
+        this.id = id;
+    }
 
-	public static Texture makeFromImage(BufferedImage img) {
-		int[] pixels=new int[img.getWidth()*img.getHeight()];
-		img.getRGB(0,0,img.getWidth(),img.getHeight(),pixels,0,img.getWidth());
+    public static Texture makeFromImage(BufferedImage img) {
+        int[] pixels = new int[img.getWidth() * img.getHeight()];
+        img.getRGB(0, 0, img.getWidth(), img.getHeight(), pixels, 0, img.getWidth());
 
-		ByteBuffer buffer=BufferUtils.createByteBuffer(img.getWidth()*img.getHeight()*BYTES_PER_PIXEL);
+        ByteBuffer buffer = BufferUtils.createByteBuffer(img.getWidth() * img.getHeight() * BYTES_PER_PIXEL);
 
-		for (int x=0;x<img.getWidth();x++){
-			for (int y=0;y<img.getHeight();y++){
-				int pixel=pixels[y*img.getWidth()+x];
-				buffer.put((byte)((pixel>>16)&0xFF));
-				buffer.put((byte)((pixel>>8)&0xFF));
-				buffer.put((byte)(pixel&0xFF));
-				buffer.put((byte)((pixel>>24)&0xFF));
-			}
-		}
+        for (int x = 0; x < img.getWidth(); x++) {
+            for (int y = 0; y < img.getHeight(); y++) {
+                int pixel = pixels[y * img.getWidth() + x];
+                buffer.put((byte) ((pixel >> 16) & 0xFF));
+                buffer.put((byte) ((pixel >> 8) & 0xFF));
+                buffer.put((byte) (pixel & 0xFF));
+                buffer.put((byte) ((pixel >> 24) & 0xFF));
+            }
+        }
 
-		buffer.flip();
+        buffer.flip();
 
-		int textureID=glGenTextures();
-		glBindTexture(GL_TEXTURE_2D,textureID);
+        int textureID = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, textureID);
 
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL12.GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL12.GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
 
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,img.getWidth(),img.getHeight(),0,GL_RGBA,GL_UNSIGNED_BYTE,buffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, img.getWidth(), img.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 
-		glBindTexture(GL_TEXTURE_2D,0);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
-		return new Texture(textureID);
-	}
+        return new Texture(textureID);
+    }
 
-	public static Texture makeFromFile(String path) {
-		BufferedImage img=null;
-		try{
-			img=loadImg(path);
-		}catch(IOException e){
-			System.err.println("Can't load texture "+path+"!!");
-			System.err.println(e.getMessage());
-		}
+    public static Texture makeFromFile(String path) {
+        BufferedImage img = null;
+        try {
+            img = loadImg(path);
+        } catch (IOException e) {
+            System.err.println("Can't load texture " + path + "!!");
+            System.err.println(e.getMessage());
+        }
 
-		return makeFromImage(img);
-	}
+        return makeFromImage(img);
+    }
 
-	public static Texture makeFromSheet(BufferedImage sheet,int x,int y,int tileWidth,int tileHeight) {
-		return makeFromImage(sheet.getSubimage(x*tileWidth,y*tileHeight,tileWidth,tileHeight));
-	}
+    public static Texture makeFromSheet(BufferedImage sheet, int x, int y, int tileWidth, int tileHeight) {
+        return makeFromImage(sheet.getSubimage(x * tileWidth, y * tileHeight, tileWidth, tileHeight));
+    }
 
-	public static Texture makeFromSheet(BufferedImage sheet,int x,int y,int tileSize) {
-		return makeFromSheet(sheet,x,y,tileSize,tileSize);
-	}
+    public static Texture makeFromSheet(BufferedImage sheet, int x, int y, int tileSize) {
+        return makeFromSheet(sheet, x, y, tileSize, tileSize);
+    }
 
-	public static BufferedImage loadImg(String path) throws IOException {
-		return ImageIO.read(Texture.class.getResource(path));
-	}
+    public static BufferedImage loadImg(String path) throws IOException {
+        return ImageIO.read(Texture.class.getResource(path));
+    }
 
-	public void use() {
-		glBindTexture(GL_TEXTURE_2D,id);
-	}
+    public void use() {
+        glBindTexture(GL_TEXTURE_2D, id);
+    }
 
-	public void delete() {
-		glDeleteTextures(id);
-		System.out.println("Deleted texture "+id);
-	}
+    public void delete() {
+        glDeleteTextures(id);
+    }
 
-	public static void unbindAll() {
-		glBindTexture(GL_TEXTURE_2D,0);
-	}
+    public static void unbindAll() {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }
