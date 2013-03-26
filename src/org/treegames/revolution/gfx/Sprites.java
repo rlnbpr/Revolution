@@ -12,7 +12,7 @@ public class Sprites {
 
 	public static void initDefaultSprites() {
         try {
-            BufferedImage player_armless = loadImage(streamFromPath("/sprites/player/player_armless.png"));
+            BufferedImage player_armless = loadImage(streamFromPath("/player/player_armless.png"));
             addSheetTexture(player_armless, 0, 0, 32, "player1");
             addSheetTexture(player_armless, 1, 0, 32, "player2");
             addSheetTexture(player_armless, 0, 1, 32, "player3");
@@ -27,7 +27,7 @@ public class Sprites {
 	}
 
     public static InputStream streamFromPath(String path) {
-        return Sprites.class.getResourceAsStream(path);
+        return Sprites.class.getResourceAsStream("/sprites" + path);
     }
 
     public static void addSheetTexture(BufferedImage img, int x, int y, int tileWidth, int tileHeight, String name) {
