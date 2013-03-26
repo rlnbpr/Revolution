@@ -12,6 +12,7 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import org.treegames.revolution.gfx.Models;
 import org.treegames.revolution.gfx.ShaderUtils;
@@ -37,11 +38,11 @@ public class Main {
         gameThread = new Thread("main-game-thread") {
             public void run() {
                 long then = System.currentTimeMillis();
-                final DisplayMode dm = new DisplayMode(1024, 768);
                 try {
+                    final DisplayMode dm = new DisplayMode(1024, 768);
                     Display.setDisplayMode(dm);
                     Display.setTitle("Revolution");
-                    Display.create();
+                    Display.create(new PixelFormat().withDepthBits(8).withSamples(8).withSRGB(true));
                     AL.create();
                 } catch (LWJGLException e) {
                     e.printStackTrace();
@@ -56,7 +57,6 @@ public class Main {
                 GL11.glShadeModel(GL11.GL_FLAT); // we don't need smooth shading since we're not using any models.
                 GL11.glClearColor(0.3921568627451f, 0.5843137254902f, 0.92941176470588f, 0.0f);
                 GL11.glClearDepth(1.0f);
-                GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
                 GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -64,7 +64,7 @@ public class Main {
 
                 GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
 
-                GLU.gluPerspective(45.0f, (float) dm.getWidth() / (float) dm.getHeight(), 0.1f, 100f);
+                GLU.gluPerspective(45.0f, (float) Display.getDisplayMode().getWidth() / (float) Display.getDisplayMode().getHeight(), 0.1f, 100f);
 
                 GL11.glMatrixMode(GL11.GL_MODELVIEW);
                 GL11.glLoadIdentity();
@@ -140,6 +140,8 @@ public class Main {
         GL11.glLoadIdentity();
 
         screen.render(this);
+
+        GL11.glFlush();
     }
 
     public static void loadLWJGL() {

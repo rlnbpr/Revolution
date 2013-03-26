@@ -66,6 +66,7 @@ public class Grid {
         Texture.unbindAll();
         // ShaderUtils.useFixedFunctions();
         glPopMatrix();
+        glDisable(GL_POLYGON_SMOOTH);
         glDisable(GL_CULL_FACE);
         glDisable(GL_LIGHT0);
         glDisable(GL_LIGHTING);
