@@ -35,6 +35,7 @@ public class Main {
 
         gameThread = new Thread("main-game-thread") {
             public void run() {
+                long then = System.currentTimeMillis();
                 final DisplayMode dm = new DisplayMode(1024, 768);
                 try {
                     Display.setDisplayMode(dm);
@@ -76,6 +77,11 @@ public class Main {
                 System.out.println("GLSL Version: " + ShaderUtils.getMaxGLSLVersion());
 
                 lastFPS = getTime();
+
+                long now = System.currentTimeMillis();
+                long total = now - then;
+                System.out.println("Took " + total + "ms");
+                System.out.println();
                 while (!Display.isCloseRequested()) {
                     Display.sync(60);
                     Display.update();
