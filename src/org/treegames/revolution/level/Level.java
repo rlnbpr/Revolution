@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import org.treegames.revolution.GameSettings;
 import org.treegames.revolution.Main;
 import org.treegames.revolution.gfx.Grid;
 
@@ -12,9 +13,10 @@ public abstract class Level {
 	public abstract void buildLevel(Grid grid);
 
 	public void buildFromData(Grid grid,LevelData l) {
+        GameSettings.lighting = false;
 		String doLight=l.properties.get("dark");
 		if(doLight!=null&&doLight.equals("true")){
-			grid.lighting=true;
+            GameSettings.lighting = true;
 		}
 		grid.grid=new int[l.layers[1].grid.length][l.layers[1].grid[0].length];
 		grid.background=new int[l.layers[0].grid.length][l.layers[0].grid[0].length];

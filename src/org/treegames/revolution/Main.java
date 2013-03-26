@@ -12,9 +12,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
+import org.treegames.revolution.gfx.Models;
 import org.treegames.revolution.gfx.ShaderUtils;
-import org.treegames.revolution.gfx.Shapes;
-import org.treegames.revolution.gfx.Sprites;
 import org.treegames.revolution.gfx.Tiles;
 import org.treegames.revolution.level.TreEngineFormat;
 import org.treegames.revolution.screen.Game;
@@ -68,7 +67,7 @@ public class Main {
                 System.out.println("Making Tiles...");
                 Tiles.initTiles();
                 System.out.println("Building Shapes...");
-                Shapes.initShapes();
+                Models.initShapes();
 
                 screen.initGL();
 
@@ -89,7 +88,7 @@ public class Main {
                     gameLoop();
                     updateFPS();
                 }
-                Shapes.deleteShapes();
+                Models.deleteShapes();
                 Tiles.unload();
                 System.out.println("Closing..");
                 Display.destroy();

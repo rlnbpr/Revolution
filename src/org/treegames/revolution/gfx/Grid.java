@@ -9,7 +9,9 @@ import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
+import org.treegames.revolution.GameSettings;
 import org.treegames.revolution.level.Level;
+import org.treegames.revolution.screen.Game;
 import org.treegames.revolution.sprite.Player;
 import org.treegames.revolution.sprite.Sprite;
 
@@ -17,12 +19,11 @@ public class Grid {
     public int grid[][] = new int[32][24];
     public int background[][] = new int[32][24];
 
+    public Game game;
+
     public Map<String, String> properties = new HashMap<String, String>();
 
     public int heightAboveGround = 0;
-
-    public boolean wireframe = false;
-    public boolean lighting = false;
 
     public List<Sprite> sprites = new ArrayList<Sprite>();
 
@@ -31,7 +32,8 @@ public class Grid {
 
     public Player player;
 
-    public Grid() {
+    public Grid(Game game) {
+        this.game = game;
         generate();
     }
 
@@ -41,13 +43,13 @@ public class Grid {
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
         glRotatef(0, 0, 0, 1);
-        if (wireframe) {
+        if (GameSettings.wireframe) {
             Texture.unbindAll();
             glDisable(GL_LIGHTING);
             glColor3f(0.0f, 1.0f, 1.0f);
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         } else {
-            if (lighting) {
+            if (GameSettings.lighting) {
                 glEnable(GL_LIGHTING);
                 glEnable(GL_LIGHT0);
             }
@@ -57,11 +59,10 @@ public class Grid {
 
         glPushMatrix();
         // ShaderUtils.useProgram(Main.invertedProgram);
-        if (!wireframe)
-            Tiles.textureMap.get(tile).use();
+        if (!GameSettings.wireframe) Tiles.textureMap.get(tile).use();
         glTranslatef(x * 2, y * 2, inBackground ? -34 : -32);
         glRotatef(-90f, 0.0f, 0.0f, 1.0f);
-        glCallList(Shapes.cube);
+        glCallList(Models.cube);
         Texture.unbindAll();
         // ShaderUtils.useFixedFunctions();
         glPopMatrix();
@@ -76,8 +77,13 @@ public class Grid {
 
     public void loadLevel(Level level) {
         level.buildLevel(this);
-        int spawnX = 1;
-        int spawnY = 3;
+        int mapHeight = Integer.parseInt(properties.get("mapHeight"));
+        int rawX = Integer.parseInt(properties.get("spawnX"));
+        int rawY = Integer.parseInt(properties.get("spawnY"));
+        float spawnX = (rawX / 32) * 2;
+        float spawnY = mapHeight * 2 - (((rawY / 32) * 2) + 2);
+        game.cameraX = -spawnX;
+        game.cameraY = -spawnY;
         System.out.println("Spawning player at [" + spawnX + ", " + spawnY + "]");
         player = new Player(new Vector2f(spawnX, spawnY));
         sprites.add(player);
@@ -89,7 +95,10 @@ public class Grid {
                 generate();
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_F1)) {
-                wireframe = !wireframe;
+                GameSettings.wireframe = !GameSettings.wireframe;
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_F2)) {
+                GameSettings.lighting = !GameSettings.lighting;
             }
         }
         for (int x = 0; x < grid.length; x++) {
@@ -111,5 +120,7 @@ public class Grid {
         for (Sprite s : sprites) {
             s.update(delta);
         }
+        game.cameraX = -player.position.x;
+        game.cameraY = -player.position.y;
     }
 }
