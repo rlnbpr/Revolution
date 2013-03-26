@@ -1,15 +1,26 @@
 package org.treegames.revolution.sound;
 
-import org.lwjgl.BufferUtils;
-import org.lwjgl.util.WaveData;
+import static org.lwjgl.openal.AL10.AL_BUFFER;
+import static org.lwjgl.openal.AL10.AL_GAIN;
+import static org.lwjgl.openal.AL10.AL_NO_ERROR;
+import static org.lwjgl.openal.AL10.AL_PITCH;
+import static org.lwjgl.openal.AL10.alBufferData;
+import static org.lwjgl.openal.AL10.alDeleteBuffers;
+import static org.lwjgl.openal.AL10.alDeleteSources;
+import static org.lwjgl.openal.AL10.alGenBuffers;
+import static org.lwjgl.openal.AL10.alGenSources;
+import static org.lwjgl.openal.AL10.alGetError;
+import static org.lwjgl.openal.AL10.alSourcePause;
+import static org.lwjgl.openal.AL10.alSourcePlay;
+import static org.lwjgl.openal.AL10.alSourceStop;
+import static org.lwjgl.openal.AL10.alSourcef;
+import static org.lwjgl.openal.AL10.alSourcei;
 
-import javax.sound.sampled.AudioInputStream;
-import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-import static org.lwjgl.openal.AL10.*;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.util.WaveData;
 
 public class SoundEffect {
     private IntBuffer buffer;

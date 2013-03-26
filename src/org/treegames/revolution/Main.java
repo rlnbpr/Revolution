@@ -25,7 +25,7 @@ import org.treegames.revolution.sound.Sounds;
 public class Main {
     private Thread gameThread;
 
-    public Screen screen = new Game();
+    public static Screen screen = new Game();
 
     public long lastFrame, lastFPS;
     public int fps;

@@ -12,7 +12,7 @@ import org.treegames.revolution.gfx.Sprites;
 import org.treegames.revolution.level.Level;
 
 public class Game extends Screen {
-    private Grid grid;
+    public Grid grid;
     public float cameraX = 0;
     public float cameraY = 0;
     public float cameraZ = 12;

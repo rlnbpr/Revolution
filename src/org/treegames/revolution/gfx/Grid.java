@@ -4,10 +4,18 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.lwjgl.input.Keyboard;
+import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
+import org.jbox2d.dynamics.World;
 import org.lwjgl.util.vector.Vector2f;
 import org.treegames.revolution.GameSettings;
 import org.treegames.revolution.level.Level;
@@ -16,101 +24,117 @@ import org.treegames.revolution.sprite.Player;
 import org.treegames.revolution.sprite.Sprite;
 
 public class Grid {
-    public int grid[][] = new int[32][24];
-    public int background[][] = new int[32][24];
+	public int grid[][]=new int[32][24];
+	public int background[][]=new int[32][24];
 
-    public Game game;
+	public Game game;
 
-    public Map<String, String> properties = new HashMap<String, String>();
+	public Map<String,String> properties=new HashMap<String,String>();
 
-    public int heightAboveGround = 0;
+	public int heightAboveGround=0;
 
-    public List<Sprite> sprites = new ArrayList<Sprite>();
+	public List<Sprite> sprites=new ArrayList<Sprite>();
 
-    public static void initGraphics() {
-    }
+	public final World world=new World(new Vec2(0,-9.8f),false);
+	public final Set<Body> tiles=new HashSet<Body>();
 
-    public Player player;
+	public static void initGraphics() {}
 
-    public Grid(Game game) {
-        this.game = game;
-        generate();
-    }
+	public Player player;
 
-    public void drawTile(int x, int y, int tile, boolean inBackground) {
-        if (tile == 0)
-            return;
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-        glRotatef(0, 0, 0, 1);
-        if (GameSettings.wireframe) {
-            Texture.unbindAll();
-            glDisable(GL_LIGHTING);
-            glColor3f(0.0f, 1.0f, 1.0f);
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        } else {
-            if (GameSettings.lighting) {
-                glEnable(GL_LIGHTING);
-                glEnable(GL_LIGHT0);
-            }
-            glColor3f(1.0f, 1.0f, 1.0f);
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        }
+	public Grid(Game game) {
+		this.game=game;
+	}
 
-        glPushMatrix();
-        // ShaderUtils.useProgram(Main.invertedProgram);
-        if (!GameSettings.wireframe) Tiles.textureMap.get(tile).use();
-        glTranslatef(x * 2, y * 2, inBackground ? -34 : -32);
-        glRotatef(-90f, 0.0f, 0.0f, 1.0f);
-        glCallList(Models.cube);
-        Texture.unbindAll();
-        // ShaderUtils.useFixedFunctions();
-        glPopMatrix();
-        glDisable(GL_POLYGON_SMOOTH);
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_LIGHT0);
-        glDisable(GL_LIGHTING);
-    }
+	public void drawTile(int x,int y,int tile,boolean inBackground) {
+		if(tile==0)
+			return;
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glRotatef(0,0,0,1);
+		if(GameSettings.wireframe){
+			Texture.unbindAll();
+			glDisable(GL_LIGHTING);
+			glColor3f(0.0f,1.0f,1.0f);
+			glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+		}else{
+			if(GameSettings.lighting){
+				glEnable(GL_LIGHTING);
+				glEnable(GL_LIGHT0);
+			}
+			glColor3f(1.0f,1.0f,1.0f);
+			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+		}
 
-    public void generate() {
+		glPushMatrix();
+		// ShaderUtils.useProgram(Main.invertedProgram);
+		if(!GameSettings.wireframe)
+			Tiles.textureMap.get(tile).use();
+		glTranslatef(x*2,y*2,inBackground?-34:-32);
+		glRotatef(-90f,0.0f,0.0f,1.0f);
+		glCallList(Models.cube);
+		Texture.unbindAll();
+		// ShaderUtils.useFixedFunctions();
+		glPopMatrix();
+		glDisable(GL_POLYGON_SMOOTH);
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_LIGHT0);
+		glDisable(GL_LIGHTING);
+	}
 
-    }
+	public void loadLevel(Level level) {
+		level.buildLevel(this);
+		int mapHeight=Integer.parseInt(properties.get("mapHeight"));
+		int rawX=Integer.parseInt(properties.get("spawnX"));
+		int rawY=Integer.parseInt(properties.get("spawnY"));
+		for (int x=0;x<grid.length;x++){
+			for (int y=0;y<grid[0].length;y++){
+				if(grid[x][y]==0)
+					continue;
+				BodyDef tileDef=new BodyDef();
+				tileDef.position.set(x*2,y*2);
+				tileDef.type=BodyType.STATIC;
+				PolygonShape tileShape=new PolygonShape();
+				tileShape.setAsBox(1,1);
+				Body tile=world.createBody(tileDef);
+				FixtureDef tileFixture=new FixtureDef();
+				tileFixture.density=1;
+				tileFixture.shape=tileShape;
+				tile.createFixture(tileFixture);
+				tiles.add(tile);
+			}
+		}
+		float spawnX=(rawX/32)*2;
+		float spawnY=mapHeight*2-(((rawY/32)*2)+2);
+		game.cameraX=-spawnX;
+		game.cameraY=-spawnY;
+		System.out.println("Spawning player at ["+spawnX+", "+spawnY+"]");
+		player=new Player(new Vector2f(spawnX,spawnY));
+		sprites.add(player);
+	}
 
-    public void loadLevel(Level level) {
-        level.buildLevel(this);
-        int mapHeight = Integer.parseInt(properties.get("mapHeight"));
-        int rawX = Integer.parseInt(properties.get("spawnX"));
-        int rawY = Integer.parseInt(properties.get("spawnY"));
-        float spawnX = (rawX / 32) * 2;
-        float spawnY = mapHeight * 2 - (((rawY / 32) * 2) + 2);
-        game.cameraX = -spawnX;
-        game.cameraY = -spawnY;
-        System.out.println("Spawning player at [" + spawnX + ", " + spawnY + "]");
-        player = new Player(new Vector2f(spawnX, spawnY));
-        sprites.add(player);
-    }
+	public void draw() {
+		for (int x=0;x<grid.length;x++){
+			for (int y=0;y<grid[0].length;y++){
+				drawTile(x,y,grid[x][y],false);
+			}
+		}
+		for (int x=0;x<background.length;x++){
+			for (int y=0;y<background[0].length;y++){
+				drawTile(x,y,background[x][y],true);
+			}
+		}
+		for (Sprite s:sprites){
+			s.draw();
+		}
+	}
 
-    public void draw() {
-        for (int x = 0; x < grid.length; x++) {
-            for (int y = 0; y < grid[0].length; y++) {
-                drawTile(x, y, grid[x][y], false);
-            }
-        }
-        for (int x = 0; x < background.length; x++) {
-            for (int y = 0; y < background[0].length; y++) {
-                drawTile(x, y, background[x][y], true);
-            }
-        }
-        for (Sprite s : sprites) {
-            s.draw();
-        }
-    }
-
-    public void update(int delta) {
-        for (Sprite s : sprites) {
-            s.update(delta);
-        }
-        game.cameraX = -player.position.x;
-        game.cameraY = -player.position.y;
-    }
+	public void update(int delta) {
+		for (Sprite s:sprites){
+			s.update(delta);
+		}
+		game.cameraX=-player.spriteBody.getPosition().x;
+		game.cameraY=-player.spriteBody.getPosition().y;
+		world.step(1/60f,8,3);
+	}
 }

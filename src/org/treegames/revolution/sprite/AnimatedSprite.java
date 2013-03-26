@@ -74,21 +74,25 @@ public class AnimatedSprite extends Sprite {
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glTranslatef(position.x, position.y, -32.5f);
-        glRotatef(lookDirection == 0 ? 180 : -90f, 0, 0, 1);
+        glTranslatef(spriteBody.getPosition().x, spriteBody.getPosition().y, -32.5f);
+        glRotatef(lookDirection == -1 ? 180 : -90f, 0, 0, 1);
         if (texture != null) texture.use();
         if (GameSettings.wireframe) {
             Texture.unbindAll();
             glDisable(GL_LIGHTING);
-            glColor3f(0.0f, 1.0f, 1.0f);
+            glColor3f(1.0f, 0.0f, 1.0f);
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         }
-        glCallList(lookDirection == 0 ? Models.flippedSprite : Models.sprite);
+        glCallList(lookDirection == -1 ? Models.flippedSprite : Models.sprite);
         Texture.unbindAll();
         glDisable(GL_BLEND);
         glDisable(GL_CULL_FACE);
         glDisable(GL_LIGHT0);
         glDisable(GL_LIGHTING);
         glPopMatrix();
+    }
+    
+    public void update(int delta) {
+    	super.update(delta);
     }
 }
