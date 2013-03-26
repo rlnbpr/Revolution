@@ -31,7 +31,7 @@ public class Grid {
 
     public Player player;
 
-    public Grid(int background) {
+    public Grid() {
         generate();
     }
 
@@ -39,7 +39,7 @@ public class Grid {
         if (tile == 0)
             return;
         glEnable(GL_CULL_FACE);
-        // glCullFace(GL_BACK);
+        glCullFace(GL_BACK);
         glRotatef(0, 0, 0, 1);
         if (wireframe) {
             Texture.unbindAll();
@@ -59,13 +59,14 @@ public class Grid {
         // ShaderUtils.useProgram(Main.invertedProgram);
         if (!wireframe)
             Tiles.textureMap.get(tile).use();
-        glTranslatef(x * 2 - 15.5f, y * 2 - 10, inBackground ? -34 : -32);
+        glTranslatef(x * 2, y * 2, inBackground ? -34 : -32);
         glRotatef(-90f, 0.0f, 0.0f, 1.0f);
         glCallList(Shapes.cube);
         Texture.unbindAll();
         // ShaderUtils.useFixedFunctions();
         glPopMatrix();
         glDisable(GL_CULL_FACE);
+        glDisable(GL_LIGHT0);
         glDisable(GL_LIGHTING);
     }
 
@@ -75,7 +76,10 @@ public class Grid {
 
     public void loadLevel(Level level) {
         level.buildLevel(this);
-        player = new Player(new Vector2f(Integer.parseInt(properties.get("spawnX")), Integer.parseInt(properties.get("spawnY"))));
+        int spawnX = 2;
+        int spawnY = 3;
+        System.out.println("Spawning player at [" + spawnX + ", " + spawnY + "]");
+        player = new Player(new Vector2f(spawnX, spawnY));
         sprites.add(player);
     }
 

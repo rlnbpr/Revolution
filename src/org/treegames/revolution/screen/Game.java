@@ -28,10 +28,11 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.treegames.revolution.Main;
 import org.treegames.revolution.gfx.Grid;
+import org.treegames.revolution.gfx.Sprites;
 import org.treegames.revolution.level.Level;
 
 public class Game extends Screen {
-    private Grid grid = new Grid(1);
+    private Grid grid = new Grid();
     private float cameraX = 0;
     private float cameraY = 0;
     private float cameraZ = 0;
@@ -45,7 +46,6 @@ public class Game extends Screen {
     // ------------- LIGHTING --------------//
 
     public Game() {
-        promptMap();
     }
 
     public void promptMap() {
@@ -89,6 +89,9 @@ public class Game extends Screen {
         glEnable(GL_LIGHT0);
         glEnable(GL_COLOR_MATERIAL);
         glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+
+        Sprites.initDefaultSprites();
+        promptMap();
     }
 
     public void render(Main main) {

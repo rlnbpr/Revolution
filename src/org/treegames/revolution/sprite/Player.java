@@ -6,7 +6,7 @@ import org.treegames.revolution.gfx.Sprites;
 public class Player extends Sprite {
 	public Player(Vector2f position) {
 		super(position);
-		texture=Sprites.getTexture("player");
+        this.texture=Sprites.getTexture("player1");
 	}
 
 	public void update(int delta) {

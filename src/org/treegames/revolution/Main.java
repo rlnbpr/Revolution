@@ -68,7 +68,6 @@ public class Main {
                 Tiles.initTiles();
                 System.out.println("Building Shapes...");
                 Shapes.initShapes();
-                Sprites.initDefaultSprites();
 
                 screen.initGL();
 

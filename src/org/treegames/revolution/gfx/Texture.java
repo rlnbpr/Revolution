@@ -32,6 +32,10 @@ public class Texture {
         this.id = id;
     }
 
+    public int getID() {
+        return id;
+    }
+
     public static Texture makeFromImage(BufferedImage img) {
         int[] pixels = new int[img.getWidth() * img.getHeight()];
         img.getRGB(0, 0, img.getWidth(), img.getHeight(), pixels, 0, img.getWidth());
