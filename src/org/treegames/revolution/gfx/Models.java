@@ -71,22 +71,6 @@ public class Shapes {
 		glEnd();
 		glEndList();
 		shapes.add(cube);
-
-        /* Used for sprites */
-		sprite=glGenLists(1);
-		glNewList(sprite,GL_COMPILE);
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0f,0.0f);
-		glVertex3f(0.0f,0.0f,0.0f);
-		glTexCoord2f(1.0f,0.0f);
-		glVertex3f(2.0f,0.0f,0.0f);
-		glTexCoord2f(1.0f,1.0f);
-		glVertex3f(2.0f,2.0f,0.0f);
-		glTexCoord2f(0.0f,1.0f);
-		glVertex3f(0.0f,2.0f,0.0f);
-		glEnd();
-		glEndList();
-		shapes.add(sprite);
 	}
 
 	public static void deleteShapes() {
