@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Models {
 	public static int cube;
-    public static int sprite;
+    public static int sprite, flippedSprite;
 	private static List<Integer> shapes=new ArrayList<Integer>();
 
 	public static void initShapes() {
@@ -88,6 +88,21 @@ public class Models {
         glEnd();
         glEndList();
         shapes.add(sprite);
+
+        flippedSprite = glGenLists(1);
+        glNewList(flippedSprite, GL_COMPILE);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0f,0.0f);
+        glVertex3f(-1.0f,-1.0f,1.0f);
+        glTexCoord2f(0.0f,1.0f);
+        glVertex3f(1.0f,-1.0f,1.0f);
+        glTexCoord2f(1.0f,1.0f);
+        glVertex3f(1.0f,1.0f,1.0f);
+        glTexCoord2f(1.0f,0.0f);
+        glVertex3f(-1.0f,1.0f,1.0f);
+        glEnd();
+        glEndList();
+        shapes.add(flippedSprite);
 	}
 
 	public static void deleteShapes() {

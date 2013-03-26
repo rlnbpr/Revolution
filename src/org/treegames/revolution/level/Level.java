@@ -13,11 +13,7 @@ public abstract class Level {
 	public abstract void buildLevel(Grid grid);
 
 	public void buildFromData(Grid grid,LevelData l) {
-        GameSettings.lighting = false;
-		String doLight=l.properties.get("dark");
-		if(doLight!=null&&doLight.equals("true")){
-            GameSettings.lighting = true;
-		}
+        GameSettings.lighting = true;
 		grid.grid=new int[l.layers[1].grid.length][l.layers[1].grid[0].length];
 		grid.background=new int[l.layers[0].grid.length][l.layers[0].grid[0].length];
 		for (int x=0;x<grid.grid.length;x++){

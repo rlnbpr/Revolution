@@ -90,17 +90,6 @@ public class Grid {
     }
 
     public void draw() {
-        while (Keyboard.next()) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_F5)) {
-                generate();
-            }
-            if (Keyboard.isKeyDown(Keyboard.KEY_F1)) {
-                GameSettings.wireframe = !GameSettings.wireframe;
-            }
-            if (Keyboard.isKeyDown(Keyboard.KEY_F2)) {
-                GameSettings.lighting = !GameSettings.lighting;
-            }
-        }
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[0].length; y++) {
                 drawTile(x, y, grid[x][y], false);

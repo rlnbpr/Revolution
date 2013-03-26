@@ -8,6 +8,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -18,6 +19,7 @@ import org.treegames.revolution.gfx.Tiles;
 import org.treegames.revolution.level.TreEngineFormat;
 import org.treegames.revolution.screen.Game;
 import org.treegames.revolution.screen.Screen;
+import org.treegames.revolution.sound.Sounds;
 
 public class Main {
     private Thread gameThread;
@@ -40,9 +42,12 @@ public class Main {
                     Display.setDisplayMode(dm);
                     Display.setTitle("Revolution");
                     Display.create();
+                    AL.create();
                 } catch (LWJGLException e) {
                     e.printStackTrace();
                 }
+
+                System.out.println("Using OpenGL version " + GL11.glGetString(GL11.GL_VERSION));
 
                 GL11.glMatrixMode(GL11.GL_PROJECTION);
                 GL11.glLoadIdentity();
@@ -68,6 +73,8 @@ public class Main {
                 Tiles.initTiles();
                 System.out.println("Building Shapes...");
                 Models.initShapes();
+                System.out.println("Loading Sounds...");
+                Sounds.initDefaultSounds();
 
                 screen.initGL();
 
@@ -88,9 +95,11 @@ public class Main {
                     gameLoop();
                     updateFPS();
                 }
+                Sounds.destroySounds();
                 Models.deleteShapes();
                 Tiles.unload();
                 System.out.println("Closing..");
+                AL.destroy();
                 Display.destroy();
             }
         };

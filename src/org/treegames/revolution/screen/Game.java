@@ -14,17 +14,11 @@ import static org.lwjgl.opengl.GL11.glColorMaterial;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glLight;
 import static org.lwjgl.opengl.GL11.glLightModel;
-import static org.lwjgl.opengl.GL11.glMaterial;
 import static org.lwjgl.opengl.GL11.glMaterialf;
 
-import java.io.File;
 import java.nio.FloatBuffer;
 
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.lwjgl.BufferUtils;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.treegames.revolution.Main;
 import org.treegames.revolution.gfx.Grid;
@@ -40,8 +34,8 @@ public class Game extends Screen {
     // ------------- LIGHTING --------------//
     private FloatBuffer matSpecular;
     private FloatBuffer lightPosition;
-    private FloatBuffer whiteLight;
     private FloatBuffer lModelAmbient;
+    private FloatBuffer diffuseLight;
 
     // ------------- LIGHTING --------------//
 
@@ -66,30 +60,26 @@ public class Game extends Screen {
 
     public void initGL() {
         matSpecular = BufferUtils.createFloatBuffer(4);
-        matSpecular.put(1.0f).put(1.0f).put(1.0f).put(1.0f).flip();
+        matSpecular.put(0.5f).put(0.5f).put(0.5f).put(1.0f).flip();
 
         lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(1.0f).put(1.0f).put(1.0f).put(-30.0f).flip();
-
-        whiteLight = BufferUtils.createFloatBuffer(4);
-        whiteLight.put(.48f).put(.48f).put(.48f).put(1.0f).flip();
+        lightPosition.put(-1.0f).put(1.0f).put(1.0f).put(-30.0f).flip();
 
         lModelAmbient = BufferUtils.createFloatBuffer(4);
-        lModelAmbient.put(0f).put(0f).put(0f).put(0f).flip();
+        lModelAmbient.put(0.5f).put(0.5f).put(0.5f).put(1.0f).flip();
 
-        glMaterial(GL_FRONT, GL_SPECULAR, matSpecular);
-        glMaterialf(GL_FRONT, GL_SHININESS, 128.0f);
+        diffuseLight = BufferUtils.createFloatBuffer(4);
+        diffuseLight.put(0.5f).put(0.5f).put(0.5f).put(1.0f).flip();
 
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
-        glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);
-        glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);
+        glLight(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
 
         glLightModel(GL_LIGHT_MODEL_AMBIENT, lModelAmbient);
 
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
         glEnable(GL_COLOR_MATERIAL);
-        glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+        glColorMaterial(GL_FRONT, GL_DIFFUSE);
 
         Sprites.initDefaultSprites();
         grid.loadLevel(new Level() {
