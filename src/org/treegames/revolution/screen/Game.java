@@ -48,20 +48,20 @@ public class Game extends Screen {
     public Game() {
     }
 
-    public void promptMap() {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setFileFilter(new FileNameExtensionFilter("TreEngine Maps (*.tmap)", "tmap"));
-        chooser.setCurrentDirectory(new File(System.getProperty("user.home") + "/Desktop"));
-        chooser.showOpenDialog(null);
-
-        final File f = chooser.getSelectedFile();
-        grid.loadLevel(new Level() {
-            public void buildLevel(Grid grid) {
-                this.buildFromFile(grid, f);
-            }
-        });
-    }
+//    public void promptMap() {
+//        JFileChooser chooser = new JFileChooser();
+//        chooser.setAcceptAllFileFilterUsed(false);
+//        chooser.setFileFilter(new FileNameExtensionFilter("TreEngine Maps (*.tmap)", "tmap"));
+//        chooser.setCurrentDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+//        chooser.showOpenDialog(null);
+//
+//        final File f = chooser.getSelectedFile();
+//        grid.loadLevel(new Level() {
+//            public void buildLevel(Grid grid) {
+//                this.buildFromFile(grid, f);
+//            }
+//        });
+//    }
 
     public void initGL() {
         matSpecular = BufferUtils.createFloatBuffer(4);
@@ -91,7 +91,11 @@ public class Game extends Screen {
         glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 
         Sprites.initDefaultSprites();
-        promptMap();
+        grid.loadLevel(new Level() {
+            public void buildLevel(Grid grid) {
+                this.buildFromStream(grid, getClass().getResourceAsStream("/maps/start.tmap"));
+            }
+        });
     }
 
     public void render(Main main) {

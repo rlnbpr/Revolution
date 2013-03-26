@@ -76,7 +76,7 @@ public class Grid {
 
     public void loadLevel(Level level) {
         level.buildLevel(this);
-        int spawnX = 2;
+        int spawnX = 1;
         int spawnY = 3;
         System.out.println("Spawning player at [" + spawnX + ", " + spawnY + "]");
         player = new Player(new Vector2f(spawnX, spawnY));
