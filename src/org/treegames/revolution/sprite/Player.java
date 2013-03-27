@@ -21,6 +21,7 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 
+import org.jbox2d.collision.shapes.MassData;
 import org.jbox2d.common.Vec2;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
@@ -38,7 +39,7 @@ public class Player extends AnimatedSprite {
 		initAnimations(tex("player1"),tex("player2"),tex("player3"),tex("player4"));
 		setFrame(0);
 		spriteDef.position.set(position.x,position.y+0.5f);
-		spriteShape.setAsBox(0.35f, 1);
+		spriteShape.setAsBox(0.35f, 0.75f);
 	}
 
 	public void update(int delta) {
@@ -54,9 +55,10 @@ public class Player extends AnimatedSprite {
 			if(Keyboard.isKeyDown(Keyboard.KEY_F2)){
 				GameSettings.lighting=!GameSettings.lighting;
 			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_W)||Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 				if((spriteBody.getPosition().y-(int)spriteBody.getPosition().y)<0.02f){
 					spriteBody.applyLinearImpulse(new Vec2(0,spriteBody.getMass()*7.5f),spriteBody.getWorldCenter());
+                    Sounds.playSound("jump");
 				}
 			}
 		}

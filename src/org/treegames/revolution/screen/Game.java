@@ -15,7 +15,7 @@ public class Game extends Screen {
     public Grid grid;
     public float cameraX = 0;
     public float cameraY = 0;
-    public float cameraZ = 12;
+    public float cameraZ = 13;
 
     // ------------- LIGHTING --------------//
     private FloatBuffer matSpecular;

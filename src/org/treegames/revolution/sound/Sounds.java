@@ -8,6 +8,7 @@ public class Sounds {
 
     public static void initDefaultSounds() {
         addSound("footstep", "/sprites/player/footstep.wav");
+        addSound("jump", "/sprites/player/jump.wav");
     }
 
     public static void addSound(String name, String path) {

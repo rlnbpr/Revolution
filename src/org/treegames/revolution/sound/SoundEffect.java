@@ -1,26 +1,14 @@
 package org.treegames.revolution.sound;
 
-import static org.lwjgl.openal.AL10.AL_BUFFER;
-import static org.lwjgl.openal.AL10.AL_GAIN;
-import static org.lwjgl.openal.AL10.AL_NO_ERROR;
-import static org.lwjgl.openal.AL10.AL_PITCH;
-import static org.lwjgl.openal.AL10.alBufferData;
-import static org.lwjgl.openal.AL10.alDeleteBuffers;
-import static org.lwjgl.openal.AL10.alDeleteSources;
-import static org.lwjgl.openal.AL10.alGenBuffers;
-import static org.lwjgl.openal.AL10.alGenSources;
-import static org.lwjgl.openal.AL10.alGetError;
-import static org.lwjgl.openal.AL10.alSourcePause;
-import static org.lwjgl.openal.AL10.alSourcePlay;
-import static org.lwjgl.openal.AL10.alSourceStop;
-import static org.lwjgl.openal.AL10.alSourcef;
-import static org.lwjgl.openal.AL10.alSourcei;
-
 import java.io.InputStream;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.WaveData;
+
+import static org.lwjgl.openal.AL10.*;
 
 public class SoundEffect {
     private IntBuffer buffer;
@@ -66,6 +54,27 @@ public class SoundEffect {
     }
 
     public void play() {
+        alSource(source.get(0), AL_POSITION, BufferUtils.createFloatBuffer(3));
+        alListener(AL_POSITION, BufferUtils.createFloatBuffer(3));
+        alSourcePlay(source.get(0));
+    }
+
+    public void playAt(float sourceX, float sourceY, float sourceZ, float listenerX, float listenerY, float listenerZ) {
+        FloatBuffer sourcePos = BufferUtils.createFloatBuffer(3);
+        sourcePos.put(new float[] {sourceX, sourceY, sourceZ});
+        sourcePos.flip();
+
+        FloatBuffer velocity = BufferUtils.createFloatBuffer(3);
+        velocity.put(new float[] {0.0f, 0.0f, 0.0f});
+        velocity.flip();
+
+        FloatBuffer listenerPos = BufferUtils.createFloatBuffer(3);
+        listenerPos.put(new float[] {listenerX, listenerY, listenerZ});
+        listenerPos.flip();
+
+        alSource(source.get(0), AL_POSITION, sourcePos);
+        alListener(AL_POSITION, listenerPos);
+
         alSourcePlay(source.get(0));
     }
 

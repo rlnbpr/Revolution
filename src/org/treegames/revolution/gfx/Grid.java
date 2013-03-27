@@ -35,7 +35,7 @@ public class Grid {
 
 	public List<Sprite> sprites=new ArrayList<Sprite>();
 
-	public final World world=new World(new Vec2(0,-9.8f),false);
+	public final World world=new World(new Vec2(0,-13f),false);
 	public final Set<Body> tiles=new HashSet<Body>();
 
 	public static void initGraphics() {}
@@ -44,42 +44,6 @@ public class Grid {
 
 	public Grid(Game game) {
 		this.game=game;
-	}
-
-	public void drawTile(int x,int y,int tile,boolean inBackground) {
-		if(tile==0)
-			return;
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glRotatef(0,0,0,1);
-		if(GameSettings.wireframe){
-			Texture.unbindAll();
-			glDisable(GL_LIGHTING);
-			glColor3f(0.0f,1.0f,1.0f);
-			glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-		}else{
-			if(GameSettings.lighting){
-				glEnable(GL_LIGHTING);
-				glEnable(GL_LIGHT0);
-			}
-			glColor3f(1.0f,1.0f,1.0f);
-			glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-		}
-
-		glPushMatrix();
-		// ShaderUtils.useProgram(Main.invertedProgram);
-		if(!GameSettings.wireframe)
-			Tiles.textureMap.get(tile).use();
-		glTranslatef(x*2,y*2,inBackground?-34:-32);
-		glRotatef(-90f,0.0f,0.0f,1.0f);
-		glCallList(Models.cube);
-		Texture.unbindAll();
-		// ShaderUtils.useFixedFunctions();
-		glPopMatrix();
-		glDisable(GL_POLYGON_SMOOTH);
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_LIGHT0);
-		glDisable(GL_LIGHTING);
 	}
 
 	public void loadLevel(Level level) {
@@ -93,7 +57,7 @@ public class Grid {
 					continue;
 				BodyDef tileDef=new BodyDef();
 				tileDef.position.set(x*2,y*2);
-				tileDef.type=BodyType.STATIC;
+				tileDef.type=BodyType.KINEMATIC;
 				PolygonShape tileShape=new PolygonShape();
 				tileShape.setAsBox(1,1);
 				Body tile=world.createBody(tileDef);
@@ -116,12 +80,12 @@ public class Grid {
 	public void draw() {
 		for (int x=0;x<grid.length;x++){
 			for (int y=0;y<grid[0].length;y++){
-				drawTile(x,y,grid[x][y],false);
+				Tiles.drawTile(x, y, grid[x][y], false);
 			}
 		}
 		for (int x=0;x<background.length;x++){
 			for (int y=0;y<background[0].length;y++){
-				drawTile(x,y,background[x][y],true);
+				Tiles.drawTile(x, y, background[x][y], true);
 			}
 		}
 		for (Sprite s:sprites){

@@ -15,7 +15,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
 import org.treegames.revolution.gfx.Models;
-import org.treegames.revolution.gfx.ShaderUtils;
 import org.treegames.revolution.gfx.Tiles;
 import org.treegames.revolution.level.TreEngineFormat;
 import org.treegames.revolution.screen.Game;
@@ -54,7 +53,7 @@ public class Main {
                 GL11.glLoadIdentity();
 
                 GL11.glEnable(GL11.GL_TEXTURE_2D);
-                GL11.glShadeModel(GL11.GL_FLAT); // we don't need smooth shading since we're not using any models.
+                GL11.glShadeModel(GL11.GL_SMOOTH);
                 GL11.glClearColor(0.3921568627451f, 0.5843137254902f, 0.92941176470588f, 0.0f);
                 GL11.glClearDepth(1.0f);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -80,7 +79,6 @@ public class Main {
 
                 System.out.println("Done initializing OpenGL.");
                 System.out.println("Using OpenGL Version " + GL11.glGetString(GL11.GL_VERSION));
-                System.out.println("GLSL Version: " + ShaderUtils.getMaxGLSLVersion());
 
                 lastFPS = getTime();
 

@@ -61,7 +61,9 @@ public class Sprite {
 		spriteFixture.density = 1f;
 		spriteFixture.friction = 6f;
 		spriteFixture.shape = spriteShape;
-    spriteBody.createFixture(spriteFixture);
+        spriteBody.createFixture(spriteFixture);
+        spriteBody.setSleepingAllowed(true);
+        spriteBody.setFixedRotation(true);
 	}
 
 	public Sprite(float x,float y) {
